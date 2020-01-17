@@ -12,13 +12,14 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     
         <junit.version>4.11</junit.version>
         <log4j.core.version>2.2</log4j.core.version>
         <log4j.api.version>2.2</log4j.api.version>
         <mysql.connector.version>8.0.18</mysql.connector.version>
+        <hikari_cp.version>3.4.1</hikari_cp.version>
     </properties>
 
     <dependencies>
@@ -42,6 +43,11 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.connector.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${hikari_cp.version}</version>
         </dependency>
     </dependencies>
 
