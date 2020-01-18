@@ -4,6 +4,18 @@ import ru.mail.dimaushenko.controller.ControllerService;
 
 public class SecondTask implements ControllerService {
 
+    private static ControllerService instance = null;
+
+    private SecondTask() {
+    }
+
+    public static ControllerService getInstance() {
+        if (instance == null) {
+            instance = new SecondTask();
+        }
+        return instance;
+    }
+    
     @Override
     public void run() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

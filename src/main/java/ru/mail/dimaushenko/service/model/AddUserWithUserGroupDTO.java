@@ -1,21 +1,12 @@
-package ru.mail.dimaushenko.repository.model;
+package ru.mail.dimaushenko.service.model;
 
-public class User {
+public class AddUserWithUserGroupDTO {
 
-    private int id;
     private String username;
     private String password;
     private boolean isActive;
     private int age;
-    private UserGroup userGroup;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private int userGroupId;
 
     public String getUsername() {
         return username;
@@ -49,12 +40,12 @@ public class User {
         this.age = age;
     }
 
-    public UserGroup getUserGroup() {
-        return userGroup;
+    public int getUserGroupId() {
+        return userGroupId;
     }
 
-    public void setUserGroup(UserGroup userGroup) {
-        this.userGroup = userGroup;
+    public void setUserGroupId(int userGroupId) {
+        this.userGroupId = userGroupId;
     }
 
 }

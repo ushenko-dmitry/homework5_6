@@ -1,12 +1,9 @@
-package ru.mail.dimaushenko.repository.model;
+package ru.mail.dimaushenko.service.model;
 
-import java.util.List;
+public class UserGroupIdDTO {
 
-public class UserGroup {
-    
     private int id;
     private String name;
-    private List<User> users;
 
     public int getId() {
         return id;
@@ -24,12 +21,4 @@ public class UserGroup {
         this.name = name;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-    
 }
