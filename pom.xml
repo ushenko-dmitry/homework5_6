@@ -24,8 +24,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     
         <junit.version>4.11</junit.version>
-        <log4j.core.version>2.2</log4j.core.version>
-        <log4j.api.version>2.2</log4j.api.version>
+        <log4j.core.version>2.13.0</log4j.core.version>
+        <log4j.api.version>2.13.0</log4j.api.version>
         <mysql.connector.version>8.0.18</mysql.connector.version>
         <hikari_cp.version>3.4.1</hikari_cp.version>
         <log4j-slf4j-impl.version>2.13.0</log4j-slf4j-impl.version>
@@ -49,6 +49,11 @@
             <version>${log4j.api.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j-slf4j-impl.version}</version>
+        </dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.connector.version}</version>
@@ -57,11 +62,6 @@
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>${hikari_cp.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>${log4j-slf4j-impl.version}</version>
         </dependency>
     </dependencies>
 

@@ -21,4 +21,9 @@ public class UserGroupDTO {
         this.amountOfUser = amountofUser;
     }
 
+    @Override
+    public String toString() {
+        return "UserGroupDTO{" + "name=" + name + ", amountOfUser=" + amountOfUser + '}';
+    }
+
 }

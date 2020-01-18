@@ -10,32 +10,31 @@ import java.sql.SQLException;
 import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import ru.mail.dimaushenko.repository.ConnectionPool;
 
-import static ru.mail.dimaushenko.constants.PropertyFiles.HIKARI_HOMEWORK_5_6_PROPERTIES;
+import static ru.mail.dimaushenko.constants.PropertyFiles.HIKARI_MYSQL_PROPERTIES;
 
-public class ConnectionPoolImpl implements ConnectionPool {
+public class ConnectionPoolMysqlImpl implements ConnectionPool {
 
     private static ConnectionPool instance = null;
     private HikariDataSource ds = null;
     private final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
 
-    private ConnectionPoolImpl() {
+    private ConnectionPoolMysqlImpl() {
     }
 
     public static ConnectionPool getInstance() {
         if (instance == null) {
-            instance = new ConnectionPoolImpl();
+            instance = new ConnectionPoolMysqlImpl();
         }
         return instance;
     }
-
+    
     @Override
     public Connection getConnection() throws SQLException {
-        if (ds == null) {
+        if (ds == null){
             try {
-                InputStream propertiesStream = getClass().getClassLoader().getResourceAsStream(HIKARI_HOMEWORK_5_6_PROPERTIES);
+                InputStream propertiesStream = getClass().getClassLoader().getResourceAsStream(HIKARI_MYSQL_PROPERTIES);
                 Properties properties = new Properties();
                 properties.load(propertiesStream);
                 HikariConfig config = new HikariConfig(properties);

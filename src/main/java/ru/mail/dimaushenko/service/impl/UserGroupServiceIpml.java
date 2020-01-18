@@ -1,11 +1,12 @@
 package ru.mail.dimaushenko.service.impl;
 
+import java.lang.invoke.MethodHandles;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import ru.mail.dimaushenko.repository.ConnectionPool;
 import ru.mail.dimaushenko.repository.UserGroupRepository;
 import ru.mail.dimaushenko.repository.impl.ConnectionPoolImpl;
@@ -14,6 +15,7 @@ import ru.mail.dimaushenko.service.UserGroupService;
 import ru.mail.dimaushenko.service.model.AddUserGroupDTO;
 import ru.mail.dimaushenko.service.model.UserGroupDTO;
 import ru.mail.dimaushenko.repository.model.UserGroup;
+import ru.mail.dimaushenko.repository.model.UserGroupWithUserAmount;
 import ru.mail.dimaushenko.service.model.UserGroupIdDTO;
 
 public class UserGroupServiceIpml implements UserGroupService {
@@ -31,8 +33,9 @@ public class UserGroupServiceIpml implements UserGroupService {
         return instance;
     }
 
-    private ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
-    private UserGroupRepository userGroupRepository = UserGroupRepositoryImpl.getInstance();
+    private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
+    private final UserGroupRepository userGroupRepository = UserGroupRepositoryImpl.getInstance();
+    private final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
 
     @Override
     public void addUserGroup(AddUserGroupDTO AddUserGroupDTO) {
@@ -43,12 +46,35 @@ public class UserGroupServiceIpml implements UserGroupService {
                 userGroupRepository.addEntity(connection, userGroup);
                 connection.commit();
             } catch (SQLException ex) {
-                Logger.getLogger(UserGroupServiceIpml.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(ex.getMessage(), ex);
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserGroupServiceIpml.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error(ex.getMessage(), ex);
         }
+    }
+
+    @Override
+    public List<UserGroupDTO> getAllUserGroup() {
+        List<UserGroupDTO> userGroupsDTO = new ArrayList();
+        List<UserGroupWithUserAmount> userGroupsWithUserAmount = new ArrayList();
+        try (Connection connection = connectionPool.getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                userGroupsWithUserAmount = userGroupRepository.getAllUserGroupWithUserAmount(connection);
+                connection.commit();
+            } catch (SQLException ex) {
+                LOGGER.error(ex.getMessage(), ex);
+                connection.rollback();
+            }
+        } catch (SQLException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        }
+        for (UserGroupWithUserAmount userGroupWithUserAmount : userGroupsWithUserAmount) {
+            UserGroupDTO userGroupDTO = convertUserGroupWithUserAmountToViewUserGroupDTO(userGroupWithUserAmount);
+            userGroupsDTO.add(userGroupDTO);
+        }
+        return userGroupsDTO;
     }
 
     @Override
@@ -61,11 +87,11 @@ public class UserGroupServiceIpml implements UserGroupService {
                 userGroups = userGroupRepository.getAll(connection);
                 connection.commit();
             } catch (SQLException ex) {
-                Logger.getLogger(UserGroupServiceIpml.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(ex.getMessage(), ex);
                 connection.rollback();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserGroupServiceIpml.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error(ex.getMessage(), ex);
         }
         for (UserGroup userGroup : userGroups) {
             UserGroupIdDTO userGroupIdDTO = convertUserGroupToUserGroupIdDTO(userGroup);
@@ -80,11 +106,11 @@ public class UserGroupServiceIpml implements UserGroupService {
         return userGroup;
     }
 
-    private UserGroupDTO convertUserGroupToViewUserGroupDTO(UserGroup userGroup) {
+    private UserGroupDTO convertUserGroupWithUserAmountToViewUserGroupDTO(UserGroupWithUserAmount userGroup) {
         UserGroupDTO userGroupDTO = new UserGroupDTO();
 
         userGroupDTO.setName(userGroup.getName());
-        userGroupDTO.setAmountOfUser(userGroup.getUsers().size());
+        userGroupDTO.setAmountOfUser(userGroup.getUserAmount());
 
         return userGroupDTO;
 
@@ -92,10 +118,10 @@ public class UserGroupServiceIpml implements UserGroupService {
 
     private UserGroupIdDTO convertUserGroupToUserGroupIdDTO(UserGroup userGroup) {
         UserGroupIdDTO userGroupIdDTO = new UserGroupIdDTO();
-        
+
         userGroupIdDTO.setId(userGroup.getId());
         userGroupIdDTO.setName(userGroup.getName());
-        
+
         return userGroupIdDTO;
     }
 

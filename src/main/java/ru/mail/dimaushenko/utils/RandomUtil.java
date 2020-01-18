@@ -2,6 +2,7 @@ package ru.mail.dimaushenko.utils;
 
 import java.util.List;
 import java.util.Random;
+
 import ru.mail.dimaushenko.service.model.UserGroupIdDTO;
 
 public class RandomUtil {

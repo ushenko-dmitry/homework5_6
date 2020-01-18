@@ -6,18 +6,18 @@ import ru.mail.dimaushenko.utils.impl.PropertyUtilTaskImpl;
 import ru.mail.dimaushenko.service.UserGroupService;
 import ru.mail.dimaushenko.service.impl.UserGroupServiceIpml;
 
-import static ru.mail.dimaushenko.constants.PropertyTask.THIRD_TASK_AMOUNT_USER_GROUPS;
+import static ru.mail.dimaushenko.constants.PropertyTask.C_TASK_AMOUNT_USER_GROUPS;
 
-public class ThirdTask implements ControllerService {
+public class CTask implements ControllerService {
 
     private static ControllerService instance = null;
 
-    private ThirdTask() {
+    private CTask() {
     }
 
     public static ControllerService getInstance() {
         if (instance == null) {
-            instance = new ThirdTask();
+            instance = new CTask();
         }
         return instance;
     }
@@ -30,7 +30,7 @@ public class ThirdTask implements ControllerService {
     @Override
     public void run() {
 
-        int amountUserGroups = propertyUtil.getIntegerProperty(THIRD_TASK_AMOUNT_USER_GROUPS);
+        int amountUserGroups = propertyUtil.getIntegerProperty(C_TASK_AMOUNT_USER_GROUPS);
 
         for (int i = 0; i < amountUserGroups; i++) {
             AddUserGroupDTO userGroupDTO = new AddUserGroupDTO();

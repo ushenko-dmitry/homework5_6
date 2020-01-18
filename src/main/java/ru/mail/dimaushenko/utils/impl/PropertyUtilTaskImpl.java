@@ -7,11 +7,12 @@ import java.lang.invoke.MethodHandles;
 import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import ru.mail.dimaushenko.constants.ErrorConstants;
 
 import static ru.mail.dimaushenko.constants.PropertyFiles.TASK_PROPERTIES;
 
-public class PropertyUtilTaskImpl implements PropertyUtil{
+public class PropertyUtilTaskImpl implements PropertyUtil {
 
     private static PropertyUtilTaskImpl instance = null;
 
@@ -21,7 +22,7 @@ public class PropertyUtilTaskImpl implements PropertyUtil{
     }
 
     public static PropertyUtilTaskImpl getInstance() {
-        if (instance == null){
+        if (instance == null) {
             instance = new PropertyUtilTaskImpl();
         }
         return instance;
@@ -41,5 +42,5 @@ public class PropertyUtilTaskImpl implements PropertyUtil{
     public Integer getIntegerProperty(String propertyName) {
         return Integer.parseInt(getProperty(propertyName));
     }
-    
+
 }
